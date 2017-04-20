@@ -1,0 +1,10 @@
+WORKSPACE: /usr/op/workspace/Robot-AutoTest-Docker
+CEPH_PATH: /usr/op/output
+DOCKER_DIR: /usr/op/robot
+
+STACK_NAME: todp
+REGISTRY_PROJECT: dphub
+IMAGE_NAME: robot
+
+
+

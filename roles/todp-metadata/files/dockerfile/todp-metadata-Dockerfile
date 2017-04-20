@@ -1,0 +1,29 @@
+FROM hub.chinatelecom.cn/dphub/todp:base
+MAINTAINER Qian Qi <qianqi@chinatelecom.cn>
+
+VOLUME /usr/lib/todp-metadata-storage
+EXPOSE 8080
+EXPOSE 22
+
+# Add keytab files for kerberos authentication
+USER dp
+ADD dp.keytab /usr/dp/
+USER root
+ADD hdfs.keytab /usr/dp/
+
+
+# Copy the metadata install package
+WORKDIR /usr/lib
+ADD todp-metadata-web*.tar.gz /usr/lib/
+ADD authorized_keys /root/.ssh/authorized_keys 
+
+# Configure service hue start 
+ADD metadata-service /etc/init.d/metadata
+RUN chmod 750 ~ \
+        && chmod 700 ~/.ssh/ \
+        && chmod 600 ~/.ssh/* \
+	&& chmod 755 /etc/init.d/metadata
+
+# Start metadata
+ADD supervisord.conf  /etc/supervisord.conf
+CMD ["/usr/bin/supervisord","-c","/etc/supervisord.conf"]

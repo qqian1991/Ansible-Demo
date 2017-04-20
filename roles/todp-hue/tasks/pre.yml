@@ -1,0 +1,78 @@
+- name: remove old docker directory
+  file:
+    path: '{{ DOCKER_DIR }}'
+    state: absent
+
+- name: create new docker directory
+  file: 
+    path: '{{ DOCKER_DIR }}'
+    state: directory
+    owner: '{{ FILE_OWNER }}'
+    group: '{{ FILE_GROUP }}'
+    mode: 0777
+
+- name: copy Dockerfile
+  copy:
+    src: 'dockerfile/todp-hue-Dockerfile'
+    dest: '{{ DOCKER_DIR }}/Dockerfile'
+    owner: '{{ FILE_OWNER }}'
+    group: '{{ FILE_GROUP }}'
+    mode: 0777
+
+- name: copy docker-compose file
+  copy:
+    src: 'composefile/todp-hue-docker-compose.yml'
+    dest: '{{ DOCKER_DIR }}/docker-compose.yml'
+    owner: '{{ FILE_OWNER }}'
+    group: '{{ FILE_GROUP }}'
+    mode: 0777
+
+- name: copy rancher-compose file
+  copy:
+    src: 'composefile/todp-hue-rancher-compose.yml'
+    dest: '{{ DOCKER_DIR }}/rancher-compose.yml'
+    owner: '{{ FILE_OWNER }}'
+    group: '{{ FILE_GROUP }}'
+    mode: 0777
+
+- name: copy config files
+  copy:
+    src: 'configfile/{{ item }}'
+    dest: '{{ DOCKER_DIR }}/'
+    owner: '{{ FILE_OWNER }}'
+    group: '{{ FILE_GROUP }}'
+    mode: 0777
+  with_items:
+    - authorized_keys
+    - hue.ini.68
+    - hue-service
+    - log4j.properties.68
+    - ssl_conf_68
+    - log.conf.68
+
+- name: copy supervisord.conf file
+  copy:
+    src: 'supervisorfile/todp-hue-supervisord.conf'
+    dest: '{{ DOCKER_DIR }}/supervisord.conf'
+    owner: '{{ FILE_OWNER }}'
+    group: '{{ FILE_GROUP }}'
+    mode: 0777
+
+- name: remove the old tar.gz file
+  shell: '/bin/rm -rf {{ WORKSPACE }}/hue.tar.gz'
+
+- name: tar the source code to tar.gz file
+  shell: /usr/bin/tar -zcvf hue.tar.gz *
+  args:
+    chdir: '{{ WORKSPACE }}'
+
+- name: copy source code package to docker service directory
+  copy:
+    src: '{{ WORKSPACE }}/hue.tar.gz'
+    dest: '{{ DOCKER_DIR }}/'
+    owner: '{{ FILE_OWNER }}'
+    group: '{{ FILE_GROUP }}'
+    mode: 0777
+  become: true
+  become_method: sudo
+  become_user: root

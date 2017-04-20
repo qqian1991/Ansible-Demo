@@ -1,0 +1,14 @@
+robot:
+  tty: true
+  labels:
+    io.rancher.scheduler.affinity:host_label: role=hub
+    io.rancher.container.pull_image: always
+    io.rancher.container.network: true
+  image: $REGISTRY_URL/$REGISTRY_PROJECT/$IMAGE_NAME:$IMAGE_TAG
+  restart: "always"
+  external_links:
+    - todp-metadata:todp-metadata
+  ports:
+    - "225:22"
+  volumes:
+    - /usr/op/output:/usr/local/output

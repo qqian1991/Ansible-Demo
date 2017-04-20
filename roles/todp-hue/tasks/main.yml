@@ -1,0 +1,8 @@
+- include: tag.yml
+  tags: [todp-hue-pre]
+   
+- include: pre.yml
+  tags: [todp-hue-pre]
+
+- include: start.yml
+  tags: [todp-hue-start]

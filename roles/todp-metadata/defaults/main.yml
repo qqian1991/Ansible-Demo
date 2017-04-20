@@ -1,0 +1,11 @@
+WORKSPACE: /usr/op/workspace/TODP-Metadata-Docker
+POM_PATH: '{{ WORKSPACE }}/todp-web/todp-metadata-web'
+CEPH_PATH: /ceph-rbd/nfs/todp-hue
+DOCKER_DIR: /usr/op/todp-metadata
+
+STACK_NAME: todp
+REGISTRY_PROJECT: dphub
+IMAGE_NAME: todp-metadata
+
+
+

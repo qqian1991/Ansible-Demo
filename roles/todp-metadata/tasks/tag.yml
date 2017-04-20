@@ -1,0 +1,30 @@
+- name: Get the latest tag from git repository
+  command: /usr/bin/git rev-list --tags --max-count=1
+  args:
+    chdir: '{{ WORKSPACE }}'
+  register: result1
+  ignore_errors: True
+
+- name: get the latest tag
+  command: '/usr/bin/git describe --tags {{ result1.stdout }}'
+  args:
+    chdir: '{{ WORKSPACE }}'
+  register: result2
+  ignore_errors: True
+
+- shell: /bin/date +%Y-%m-%d-%H
+  register: result3
+
+- set_fact:
+    IMAGE_TAG: '{{ result2.stdout }}-{{ result3.stdout }}'
+  when: result2|succeeded
+
+- set_fact:
+    IMAGE_TAG: 'unreleased-{{ result3.stdout }}'
+  when: result2|failed
+
+- debug:
+    msg: "{{ item }}"
+  with_items:
+    - '{{ IMAGE_TAG }}'
+    - '{{ POM_PATH }}'

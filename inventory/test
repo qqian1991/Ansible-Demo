@@ -1,0 +1,10 @@
+[test-vms]
+hub              ansible_ssh_host=10.142.246.5 ansible_ssh_user=op 
+TEST-BIGDATA-002 ansible_ssh_host=10.142.246.2 ansible_ssh_user=op 
+TEST-BIGDATA-003 ansible_ssh_host=10.142.246.3 ansible_ssh_user=op 
+TEST-BIGDATA-004 ansible_ssh_host=10.142.246.4 ansible_ssh_user=op 
+
+[test-containers]
+todp-hue
+todp-metadata
+robot

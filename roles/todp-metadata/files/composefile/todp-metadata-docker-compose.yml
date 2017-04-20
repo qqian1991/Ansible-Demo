@@ -1,0 +1,67 @@
+todp-metadata:
+  labels: 
+    io.rancher.scheduler.affinity:host_label: role=hub
+    io.rancher.container.pull_image: always
+    io.rancher.container.network: true
+  image: $REGISTRY_URL/$REGISTRY_PROJECT/$IMAGE_NAME:$IMAGE_TAG
+  restart: unless-stopped
+  ports:
+    - "8500:8500"
+    - "224:22"
+  volumes:
+    - todp-metadata:/usr/lib/todp-metadata-storage
+  log_driver: syslog
+  log_opt:
+    syslog-address: "tcp://docker-rancher-server:8514"
+    tag: "$IMAGE_NAME"
+  extra_hosts:
+    - "NM-304-HW-XH628V3-BIGDATA-083:10.142.78.11" 
+    - "NM-304-HW-XH628V3-BIGDATA-084:10.142.78.12" 
+    - "NM-304-HW-XH628V3-BIGDATA-085:10.142.78.13" 
+    - "NM-304-HW-XH628V3-BIGDATA-086:10.142.78.14" 
+    - "NM-304-HW-XH628V3-BIGDATA-087:10.142.78.15" 
+    - "NM-304-HW-XH628V3-BIGDATA-088:10.142.78.16" 
+    - "NM-304-HW-XH628V3-BIGDATA-089:10.142.78.17" 
+    - "NM-304-HW-XH628V3-BIGDATA-090:10.142.78.18" 
+    - "NM-304-HW-XH628V3-BIGDATA-091:10.142.78.19" 
+    - "NM-304-HW-XH628V3-BIGDATA-092:10.142.78.20" 
+    - "NM-304-HW-XH628V3-BIGDATA-093:10.142.78.21" 
+    - "NM-304-HW-XH628V3-BIGDATA-094:10.142.78.22" 
+    - "NM-304-HW-XH628V3-BIGDATA-095:10.142.78.23" 
+    - "NM-304-HW-XH628V3-BIGDATA-096:10.142.78.24" 
+    - "NM-304-HW-XH628V3-BIGDATA-097:10.142.78.25" 
+    - "NM-304-HW-XH628V3-BIGDATA-098:10.142.78.26" 
+    - "NM-304-HW-XH628V3-BIGDATA-099:10.142.78.27" 
+    - "NM-304-HW-XH628V3-BIGDATA-100:10.142.78.28" 
+    - "NM-304-HW-XH628V3-BIGDATA-101:10.142.78.29" 
+    - "NM-304-HW-XH628V3-BIGDATA-102:10.142.78.30" 
+    - "NM-ITC-NF8460M3-303-011:10.142.78.31" 
+    - "NM-ITC-NF8460M3-303-012:10.142.78.32" 
+    - "NM-ITC-NF8460M3-303-013:10.142.78.33" 
+    - "NM-ITC-NF8460M3-303-014:10.142.78.34" 
+    - "NM-ITC-NF8460M3-303-015:10.142.78.35" 
+    - "NM-ITC-NF8460M3-303-016:10.142.78.36" 
+    - "NM-ITC-NF8460M3-303-017:10.142.78.37" 
+    - "NM-ITC-NF8460M3-303-018:10.142.78.38" 
+    - "NM-ITC-NF8460M3-303-019:10.142.78.39" 
+    - "NM-ITC-NF8460M3-303-020:10.142.78.40" 
+    - "TEST-BDD-041:10.142.78.41"
+    - "TEST-BDD-042:10.142.78.42"
+    - "TEST-BDD-043:10.142.78.43"
+    - "TEST-BDD-044:10.142.78.44"
+    - "TEST-BDD-045:10.142.78.45"
+    - "TEST-BDD-052:10.142.78.52"
+    - "TEST-BDD-053:10.142.78.53"
+    - "TEST-BDD-054:10.142.78.54"
+    - "TEST-BDD-055:10.142.78.55"
+    - "TEST-BDD-056:10.142.78.56"
+    - "TEST-BDD-067:10.142.78.67"
+    - "TEST-BDD-068:10.142.78.68"
+    - "TEST-BDD-070:10.142.78.70"
+    - "TEST-BDD-071:10.142.78.71"
+    - "TEST-BDD-073:10.142.78.73"
+    - "TEST-BDD-074:10.142.78.74"
+    - "docker-rancher-server:10.142.246.2"
+    - "docker-rancher-client1:10.142.246.3"
+    - "docker-rancher-client2:10.142.246.4"
+    - "hub.chinatelecom.cn:10.142.246.5"

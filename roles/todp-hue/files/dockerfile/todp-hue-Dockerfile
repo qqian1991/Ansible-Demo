@@ -1,0 +1,26 @@
+FROM hub.chinatelecom.cn/dphub/todp-hue:todp-hue-build
+MAINTAINER Qian Qi <qianqi@chinatelecom.cn>
+
+# Update hue code pulled by jenkins
+RUN mkdir -p /usr/lib/hue-upgrade
+ADD  hue.tar.gz  /usr/lib/hue-upgrade
+RUN ["/usr/bin/rsync","-av","/usr/lib/hue-upgrade/","/usr/lib/hue/"]
+
+# collect static for django
+#RUN  ["/usr/lib/hue/build/env/bin/hue","collectstatic","--noinput"]
+
+# Return configuration files
+ADD  hue.ini.68 /usr/lib/hue/desktop/conf/hue.ini
+ADD  log4j.properties.68 /usr/lib/hue/desktop/conf/log4j.properties
+ADD  log.conf.68 /usr/lib/hue/desktop/conf/log.conf
+ADD  ssl_conf_68 /usr/lib/hue/ssl_conf
+
+RUN sed -i "/metadatacenter_base = /c \ \ metadatacenter_base = 'http://todp-metadata:8500'" /usr/lib/hue/desktop/core/src/desktop/conf.py
+
+# Configure service hue start 
+ADD  hue-service /etc/init.d/hue
+RUN  chmod 755 /etc/init.d/hue
+
+# Start hue
+WORKDIR /usr/lib/hue
+CMD ["/usr/bin/supervisord"]

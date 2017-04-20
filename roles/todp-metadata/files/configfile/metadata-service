@@ -1,0 +1,73 @@
+#!/bin/bash
+
+. /etc/init.d/functions
+
+export JAVA_HOME=/usr/lib/jdk1.7.0_79
+export JRE_HOME=/usr/lib/jdk1.7.0_79/jre
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+export CLASSPATH=./:$JAVA_HOME/lib:$JAVA_HOME/jre/lib
+METADATA_HOME=/usr/lib/todp-metadata-web/bin
+METADATA_START="$METADATA_HOME/run.sh start"
+METADATA_STOP="$METADATA_HOME/run.sh stop"
+METADATA_RESTART="$METADATA_HOME/run.sh restart"
+
+
+
+if [ ! -f $METADATA_HOME/run.sh ]
+    then echo "Metadata not available..."
+    exit
+fi
+
+metadata_start() {
+    line=`ps ax --width=1000 | grep todp-metadata-web.jar | grep -v grep | awk '{printf $1 " "}' | wc | awk '{print $2}'`
+    if [ $line -gt 0 ]; then
+        echo "metadata is already running"
+	echo
+    else
+	echo -n "Starting Metadata: "
+	$METADATA_START
+	echo
+    fi
+}
+
+metadata_stop() {
+    echo -n "Shutting down Metadata: "
+    $METADATA_STOP
+    echo 
+}
+
+metadata_restart() {
+    echo -n "Restarting down Metadata: "
+    $METADATA_RESTART
+    echo
+}
+
+metadata_status() {  
+    line=`ps ax --width=1000 | grep todp-metadata-web.jar | grep -v grep | awk '{printf $1 " "}' | wc | awk '{print $2}'`
+    pid=`ps ax --width=1000 | grep todp-metadata-web.jar | grep -v grep | awk '{printf $1 " "}'`
+    if [ $line -gt 0 ]; then  
+        echo -n "metadata ( pid $pid ) is running..."  
+        echo  
+    else
+        echo "metadata is stopped" 
+    fi
+}  
+
+case "$1" in  
+    start)  
+        metadata_start 
+	    ;;  
+    stop)  
+        metadata_stop 
+	    ;;  
+    restart)  
+        metadata_restart 
+	    ;;  
+    status)  
+        metadata_status 
+	    ;;  
+    *)  
+        echo "Usage: service metadata {start|stop|restart|status}"  
+        exit 1  
+esac  
+exit 0

@@ -1,0 +1,33 @@
+- name: login in Rancher
+  docker_login:
+    registry: '{{ REGISTRY_URL }}'
+    username: '{{ REGISTRY_DEV_USER }}'
+    password: '{{ REGISTRY_DEV_PASSWORD }}'
+    reauthorize: yes
+   
+- name: build image and push to Harbor
+  docker_image:
+    state: present
+    path: '{{ DOCKER_DIR }}'
+    nocache: yes
+    force: yes
+    name: '{{ REGISTRY_URL }}/{{ REGISTRY_PROJECT }}/{{ IMAGE_NAME }}' 
+    tag: '{{ IMAGE_TAG }}'
+    push: yes
+
+- name: login out Rancher
+  command: '/usr/bin/docker logout {{ REGISTRY_URL }}'
+
+- name: rancher-compose to start service
+  command: '/usr/bin/rancher-compose -p {{ STACK_NAME }} up -d --force-upgrade {{ IMAGE_NAME }}'
+  args:
+    chdir: '{{ DOCKER_DIR }}'
+  environment:
+    IMAGE_TAG: '{{ IMAGE_TAG }}'
+
+- name: rancher-compose upgrade confirm
+  command: '/usr/bin/rancher-compose -p {{ STACK_NAME }} up -d --upgrade --confirm-upgrade'
+  args:
+    chdir: '{{ DOCKER_DIR }}'
+  environment:
+    IMAGE_TAG: '{{ IMAGE_TAG }}'

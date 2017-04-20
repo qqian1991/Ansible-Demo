@@ -1,0 +1,8 @@
+- include: tag.yml
+  tags: [robot-pre]
+   
+- include: pre.yml
+  tags: [robot-pre]
+
+- include: start.yml
+  tags: [robot-start]

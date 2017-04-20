@@ -1,0 +1,8 @@
+- include: tag.yml
+  tags: [todp-metadata-pre]
+   
+- include: pre.yml
+  tags: [todp-metadata-pre]
+
+- include: start.yml
+  tags: [todp-metadata-start]

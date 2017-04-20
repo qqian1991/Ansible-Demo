@@ -1,0 +1,18 @@
+---
+- name: Configure and start todp-metadata container
+  hosts: hub
+  gather_facts: no
+  remote_user: '{{ REMOTE_USER }}'
+  
+  roles:
+    - { role: todp-metadata, tags: [ 'todp-metadata' ] }
+
+  environment:
+    RANCHER_URL: '{{ RANCHER_URL }}'
+    RANCHER_ACCESS_KEY: '{{ RANCHER_ACCESS_KEY }}'
+    RANCHER_SECRET_KEY: '{{ RANCHER_SECRET_KEY }}'
+    REGISTRY_URL: '{{ REGISTRY_URL }}'
+    REGISTRY_PROJECT: '{{ REGISTRY_PROJECT }}'
+    IMAGE_NAME: '{{ IMAGE_NAME }}'
+    CEPH_PATH: '{{ CEPH_PATH }}'
+    JAVA_HOME: '{{ JAVA_HOME }}'

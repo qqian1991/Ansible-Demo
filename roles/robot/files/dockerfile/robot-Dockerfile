@@ -1,0 +1,18 @@
+FROM hub.chinatelecom.cn/dphub/robot:base
+MAINTAINER Qian Qi <qianqi@chinatelecom.cn>
+
+EXPOSE 22
+VOLUME /usr/local/output
+RUN mkdir -p /usr/local/robotframework-auto-test
+ADD TODP.tar.gz  /usr/local/robotframework-auto-test/
+ADD startup.sh  /usr/local/
+WORKDIR /usr/local/output/
+ADD  supervisord.conf  /etc/supervisord.conf
+ADD authorized_keys /root/.ssh/authorized_keys
+RUN chmod 750 ~ \
+	&& chmod 700 ~/.ssh/ \
+	&& chmod 600 ~/.ssh/*
+
+
+CMD ["/usr/bin/supervisord"]
+

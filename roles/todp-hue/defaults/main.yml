@@ -1,0 +1,10 @@
+WORKSPACE: /usr/op/workspace/TODP-Hue-Docker
+CEPH_PATH: /ceph-rbd/nfs/todp-hue
+DOCKER_DIR: /usr/op/todp-hue
+
+STACK_NAME: todp
+REGISTRY_PROJECT: dphub
+IMAGE_NAME: todp-hue
+
+
+
